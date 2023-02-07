@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Signika:wght@300;400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Signika", sans-serif;
+  font-weight: 400;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Track */
+// ::-webkit-scrollbar-track {
+//   background: transparent;
+//   border-radius: 10px;
+// }
+
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   background: #e15b64;
+//   border-radius: 10px;
+//   width: 100px;
+// }
+
+/* Handle on hover */

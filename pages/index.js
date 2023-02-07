@@ -1,11 +1,58 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+//next
+import Head from "next/head";
+import { Inter } from "@next/font/google";
+import styles from "@/styles/Home.module.scss";
 
-const inter = Inter({ subsets: ['latin'] })
+//react
+import React, { useEffect, useState, useRef } from "react";
+
+//tensorflow
+import * as tf from "@tensorflow/tfjs";
+
+//classes
+import { classes, classes_icon } from "../classes.js";
+
+//components
+import Loader from "@/components/loader/loader.js";
+import Layout from "@/components/layout/layout.js";
+
+import { FileUploader } from "react-drag-drop-files";
+
+const fileTypes = ["JPG", "PNG", "GIF"];
 
 export default function Home() {
+  const [model, setModel] = useState();
+  const [prediction, setPrediction] = useState(null);
+  const [img, setImg] = useState();
+  const [preview, setPreview] = useState();
+
+  useEffect(() => {
+    const loadModel = async () => {
+      const model = await tf.loadGraphModel("model/model.json");
+      setModel(model);
+    };
+    loadModel();
+  }, []);
+
+  const Prediction = (img) => {
+    img = tf.expandDims(tf.image.resizeBilinear(img, [224, 224]));
+    let pred = model.predict(img);
+    let predarray = Array.from(pred.dataSync());
+    pred = predarray.indexOf(Math.max(...predarray));
+    setPrediction(classes[pred]);
+  };
+
+  const handleChange = (file) => {
+    setPreview(URL.createObjectURL(file));
+    console.log(URL.createObjectURL(file));
+    var img = new Image();
+    img.src = `${URL.createObjectURL(file)}`;
+    img.onload = () => {
+      var output = tf.browser.fromPixels(img);
+      setImg(output);
+    };
+  };
+
   return (
     <>
       <Head>
@@ -15,109 +62,127 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
+        {model ? (
+          // <div>
+          //   <p>model</p>
+          //   <input type="file" onChange={handleChange}></input>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
+          //   {prediction ? (
+          //     <p>{prediction}</p>
+          //   ) : (
+          //     <button onClick={() => Prediction(img)}>Predict</button>
+          //   )}
+          //   <img src={preview}></img>
+          // </div>
+          <Layout>
+            <div className={styles.header}>
+              <h1>Food Vision®</h1>
+              <a className={styles.github}>
+                <div className={styles.logo}>
+                  <img src="/github-white.png" width="18px"></img>
+                </div>
+                <div className={styles.text}>Open in Github</div>
+              </a>
+            </div>
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+            <div className={styles.labels}>
+              <h2>50+ Label Categories</h2>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
+              <div className={styles.labelsContainer}>
+                {classes_icon.map((label) => (
+                  <div className={styles.label}>
+                    <div className={styles.img}>
+                      <img src={label.icon} width="45px"></img>
+                    </div>
+                    <p>{label.title}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
+            {prediction ? (
+              <div className={styles.predictionContainer}>
+                <div className={styles.prediction}>
+                  <p>"{prediction}"</p>
+                  <div className={styles.buttons}>
+                    <button
+                      className={styles.correct}
+                      onClick={() => {
+                        setImg();
+                        setPrediction();
+                        setPreview();
+                      }}
+                    >
+                      {" "}
+                      Correct{" "}
+                    </button>
+                    <button
+                      className={styles.incorrect}
+                      onClick={() => {
+                        setImg();
+                        setPrediction();
+                        setPreview();
+                      }}
+                    >
+                      {" "}
+                      Incorrect
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.formContainer}>
+                <FileUploader
+                  handleChange={handleChange}
+                  name="file"
+                  multiple={false}
+                  types={fileTypes}
+                  children={
+                    preview ? (
+                      <div className={styles.previewfile}>
+                        <img src={preview} height="200px"></img>
+                        <p>File uploaded successfully</p>
+                      </div>
+                    ) : (
+                      <div className={styles.inputfile}>
+                        <p>Click or Drop image here</p>
+                        <p>Only JPG , JPEG Allowed !</p>
+                      </div>
+                    )
+                  }
+                />
+                <button onClick={() => Prediction(img)}>What is it ?</button>
+              </div>
+            )}
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+            <div className={styles.footer}>
+              <p>
+                By{" "}
+                <a href="https://ahmedelmeskyny.vercel.app/">
+                  Ahmed El Meskyny
+                </a>
+                <img src="/chili-pepper.png" width="20px"></img>
+              </p>
+              <div className={styles.socials}>
+                <ul>
+                  <li>
+                    <a href="https://www.linkedin.com/in/ahmed-el-meskyny-b570041b5/">
+                      <img src="/linkedin.png"></img>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/ahmed-elmeskyny">
+                      <img src="github.png"></img>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </Layout>
+        ) : (
+          <Loader></Loader>
+        )}
       </main>
     </>
-  )
+  );
 }
