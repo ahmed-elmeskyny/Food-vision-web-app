@@ -33,6 +33,38 @@
   }
 }
 
+.loaderContainer {
+  position: fixed;
+  z-index: 100000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.25);
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .loader {
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    background-color: white;
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+      font-weight: bolder;
+      font-size: 25px;
+      margin-top: 20px;
+    }
+  }
+}
+
 .labels {
   //   display: flex;
   //   align-items: center;

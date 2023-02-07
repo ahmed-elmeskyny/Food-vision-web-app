@@ -25,7 +25,7 @@ export default function Home() {
   const [prediction, setPrediction] = useState(null);
   const [img, setImg] = useState();
   const [preview, setPreview] = useState();
-
+  const [loader, setLoader] = useState();
   useEffect(() => {
     const loadModel = async () => {
       const model = await tf.loadGraphModel("model/model.json");
@@ -44,7 +44,6 @@ export default function Home() {
 
   const handleChange = (file) => {
     setPreview(URL.createObjectURL(file));
-    console.log(URL.createObjectURL(file));
     var img = new Image();
     img.src = `${URL.createObjectURL(file)}`;
     img.onload = () => {
@@ -63,19 +62,16 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         {model ? (
-          // <div>
-          //   <p>model</p>
-          //   <input type="file" onChange={handleChange}></input>
-
-          //   {prediction ? (
-          //     <p>{prediction}</p>
-          //   ) : (
-          //     <button onClick={() => Prediction(img)}>Predict</button>
-          //   )}
-          //   <img src={preview}></img>
-          // </div>
           <Layout>
             <>
+              {loader ? (
+                <div className={styles.loaderContainer}>
+                  <div className={styles.loader}>
+                    <img src="/spinner.svg" width="100px"></img>
+                    <p>Cooking...</p>
+                  </div>
+                </div>
+              ) : null}
               <div className={styles.header}>
                 <h1>Food Vision®</h1>
                 <a className={styles.github}>
@@ -150,7 +146,13 @@ export default function Home() {
                       )
                     }
                   />
-                  <button onClick={() => Prediction(img)}>What is it ?</button>
+                  <button
+                    onClick={() => {
+                      Prediction(img);
+                    }}
+                  >
+                    What is it ?
+                  </button>
                 </div>
               )}
 
