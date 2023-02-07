@@ -91,7 +91,7 @@ export default function Home() {
 
                 <div className={styles.labelsContainer}>
                   {classes_icon.map((label) => (
-                    <div className={styles.label}>
+                    <div className={styles.label} key={label.title}>
                       <div className={styles.img}>
                         <img src={label.icon} width="45px"></img>
                       </div>
