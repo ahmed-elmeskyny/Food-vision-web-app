@@ -75,107 +75,109 @@ export default function Home() {
           //   <img src={preview}></img>
           // </div>
           <Layout>
-            <div className={styles.header}>
-              <h1>Food Vision®</h1>
-              <a className={styles.github}>
-                <div className={styles.logo}>
-                  <img src="/github-white.png" width="18px"></img>
-                </div>
-                <div className={styles.text}>Open in Github</div>
-              </a>
-            </div>
-
-            <div className={styles.labels}>
-              <h2>50+ Label Categories</h2>
-
-              <div className={styles.labelsContainer}>
-                {classes_icon.map((label) => (
-                  <div className={styles.label}>
-                    <div className={styles.img}>
-                      <img src={label.icon} width="45px"></img>
-                    </div>
-                    <p>{label.title}</p>
+            <>
+              <div className={styles.header}>
+                <h1>Food Vision®</h1>
+                <a className={styles.github}>
+                  <div className={styles.logo}>
+                    <img src="/github-white.png" width="18px"></img>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {prediction ? (
-              <div className={styles.predictionContainer}>
-                <div className={styles.prediction}>
-                  <p>&quot;{prediction}&quot;</p>
-                  <div className={styles.buttons}>
-                    <button
-                      className={styles.correct}
-                      onClick={() => {
-                        setImg();
-                        setPrediction();
-                        setPreview();
-                      }}
-                    >
-                      Correct
-                    </button>
-                    <button
-                      className={styles.incorrect}
-                      onClick={() => {
-                        setImg();
-                        setPrediction();
-                        setPreview();
-                      }}
-                    >
-                      Incorrect
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className={styles.formContainer}>
-                <FileUploader
-                  handleChange={handleChange}
-                  name="file"
-                  multiple={false}
-                  types={fileTypes}
-                  children={
-                    preview ? (
-                      <div className={styles.previewfile}>
-                        <img src={preview} height="200px"></img>
-                        <p>File uploaded successfully</p>
-                      </div>
-                    ) : (
-                      <div className={styles.inputfile}>
-                        <p>Click or Drop image here</p>
-                        <p>Only JPG , JPEG Allowed !</p>
-                      </div>
-                    )
-                  }
-                />
-                <button onClick={() => Prediction(img)}>What is it ?</button>
-              </div>
-            )}
-
-            <div className={styles.footer}>
-              <p>
-                By
-                <a href="https://ahmedelmeskyny.vercel.app/">
-                  Ahmed El Meskyny
+                  <div className={styles.text}>Open in Github</div>
                 </a>
-                <img src="/chili-pepper.png" width="20px"></img>
-              </p>
-              <div className={styles.socials}>
-                <ul>
-                  <li>
-                    <a href="https://www.linkedin.com/in/ahmed-el-meskyny-b570041b5/">
-                      <img src="/linkedin.png"></img>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/ahmed-elmeskyny">
-                      <img src="github.png"></img>
-                    </a>
-                  </li>
-                </ul>
               </div>
-            </div>
+
+              <div className={styles.labels}>
+                <h2>50+ Label Categories</h2>
+
+                <div className={styles.labelsContainer}>
+                  {classes_icon.map((label) => (
+                    <div className={styles.label}>
+                      <div className={styles.img}>
+                        <img src={label.icon} width="45px"></img>
+                      </div>
+                      <p>{label.title}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {prediction ? (
+                <div className={styles.predictionContainer}>
+                  <div className={styles.prediction}>
+                    <p>&quot;{prediction}&quot;</p>
+                    <div className={styles.buttons}>
+                      <button
+                        className={styles.correct}
+                        onClick={() => {
+                          setImg();
+                          setPrediction();
+                          setPreview();
+                        }}
+                      >
+                        Correct
+                      </button>
+                      <button
+                        className={styles.incorrect}
+                        onClick={() => {
+                          setImg();
+                          setPrediction();
+                          setPreview();
+                        }}
+                      >
+                        Incorrect
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.formContainer}>
+                  <FileUploader
+                    handleChange={handleChange}
+                    name="file"
+                    multiple={false}
+                    types={fileTypes}
+                    children={
+                      preview ? (
+                        <div className={styles.previewfile}>
+                          <img src={preview} height="200px"></img>
+                          <p>File uploaded successfully</p>
+                        </div>
+                      ) : (
+                        <div className={styles.inputfile}>
+                          <p>Click or Drop image here</p>
+                          <p>Only JPG , JPEG Allowed !</p>
+                        </div>
+                      )
+                    }
+                  />
+                  <button onClick={() => Prediction(img)}>What is it ?</button>
+                </div>
+              )}
+
+              <div className={styles.footer}>
+                <p>
+                  By
+                  <a href="https://ahmedelmeskyny.vercel.app/">
+                    Ahmed El Meskyny
+                  </a>
+                  <img src="/chili-pepper.png" width="20px"></img>
+                </p>
+                <div className={styles.socials}>
+                  <ul>
+                    <li>
+                      <a href="https://www.linkedin.com/in/ahmed-el-meskyny-b570041b5/">
+                        <img src="/linkedin.png"></img>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://github.com/ahmed-elmeskyny">
+                        <img src="github.png"></img>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </>
           </Layout>
         ) : (
           <Loader></Loader>
