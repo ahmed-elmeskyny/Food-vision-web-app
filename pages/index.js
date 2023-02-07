@@ -103,7 +103,7 @@ export default function Home() {
             {prediction ? (
               <div className={styles.predictionContainer}>
                 <div className={styles.prediction}>
-                  <p>"{prediction}"</p>
+                  <p>&quot;{prediction}&quot;</p>
                   <div className={styles.buttons}>
                     <button
                       className={styles.correct}
@@ -113,8 +113,7 @@ export default function Home() {
                         setPreview();
                       }}
                     >
-                      {" "}
-                      Correct{" "}
+                      Correct
                     </button>
                     <button
                       className={styles.incorrect}
@@ -124,7 +123,6 @@ export default function Home() {
                         setPreview();
                       }}
                     >
-                      {" "}
                       Incorrect
                     </button>
                   </div>
@@ -157,7 +155,7 @@ export default function Home() {
 
             <div className={styles.footer}>
               <p>
-                By{" "}
+                By
                 <a href="https://ahmedelmeskyny.vercel.app/">
                   Ahmed El Meskyny
                 </a>

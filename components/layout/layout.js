@@ -1,7 +1,7 @@
 //styles
 import styles from "./layout.module.scss";
 
-export default function Layout(props) {
+export default function Layout({ children }) {
   return (
     <div className={styles.layoutContainer}>
       <img src="/pizza.png" className={styles.icon1}></img>
@@ -31,7 +31,7 @@ export default function Layout(props) {
           <div></div>
         </div>
       </div>
-      <div className={styles.main}>{props.children}</div>
+      <div className={styles.main}>{children}</div>
     </div>
   );
 }
