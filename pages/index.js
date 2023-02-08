@@ -132,20 +132,19 @@ export default function Home() {
                     name="file"
                     multiple={false}
                     types={fileTypes}
-                    children={
-                      preview ? (
-                        <div className={styles.previewfile}>
-                          <img src={preview} height="200px"></img>
-                          <p>File uploaded successfully</p>
-                        </div>
-                      ) : (
-                        <div className={styles.inputfile}>
-                          <p>Click or Drop image here</p>
-                          <p>Only JPG , JPEG Allowed !</p>
-                        </div>
-                      )
-                    }
-                  />
+                  >
+                    {preview ? (
+                      <div className={styles.previewfile}>
+                        <img src={preview} height="200px"></img>
+                        <p>File uploaded successfully</p>
+                      </div>
+                    ) : (
+                      <div className={styles.inputfile}>
+                        <p>Click or Drop image here</p>
+                        <p>Only JPG , JPEG Allowed !</p>
+                      </div>
+                    )}
+                  </FileUploader>
                   <button
                     onClick={() => {
                       Prediction(img);
