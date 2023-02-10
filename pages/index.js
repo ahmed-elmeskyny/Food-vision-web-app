@@ -25,7 +25,7 @@ export default function Home() {
   const [prediction, setPrediction] = useState(null);
   const [img, setImg] = useState();
   const [preview, setPreview] = useState();
-  const [loader, setLoader] = useState();
+  const [loader, setLoader] = useState(false);
   useEffect(() => {
     const loadModel = async () => {
       const model = await tf.loadGraphModel("model/model.json");
@@ -64,14 +64,6 @@ export default function Home() {
         {model ? (
           <Layout>
             <>
-              {loader ? (
-                <div className={styles.loaderContainer}>
-                  <div className={styles.loader}>
-                    <img src="/spinner.svg" width="100px"></img>
-                    <p>Cooking...</p>
-                  </div>
-                </div>
-              ) : null}
               <div className={styles.header}>
                 <h1>Food Vision®</h1>
                 <a className={styles.github}>
@@ -95,6 +87,10 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
+                <span>
+                  Upload an image of a food dish and let the model tell you what
+                  it is{" "}
+                </span>
               </div>
 
               {prediction ? (
