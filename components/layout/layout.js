@@ -15,13 +15,13 @@ export default function Layout({ children }) {
           <div className={styles.list}>
             <ul>
               <li>
-                <a>
+                <a href="/">
                   <img src="/home.png"></img>
                 </a>
                 {/* <p>Home</p> */}
               </li>
               <li>
-                <a>
+                <a href="/">
                   <img src="/info.png"></img>
                 </a>
                 {/* <p>About</p> */}
