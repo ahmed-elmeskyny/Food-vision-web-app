@@ -16,10 +16,7 @@ export default function About() {
       <main className={styles.main}>
         <Layout>
           <div className={styles.textContainer}>
-            <div>
-              <h1>Data Set :</h1>
-              <p>fff</p>
-            </div>
+            <img src="/code.png" width="130%"></img>
           </div>
         </Layout>
       </main>

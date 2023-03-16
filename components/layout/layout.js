@@ -21,7 +21,7 @@ export default function Layout({ children }) {
                 {/* <p>Home</p> */}
               </li>
               <li>
-                <a href="/">
+                <a href="/about">
                   <img src="/info.png"></img>
                 </a>
                 {/* <p>About</p> */}
